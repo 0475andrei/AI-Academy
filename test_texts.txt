@@ -1,0 +1,25 @@
+Can you check if this email is a phishing attempt?
+
+Subject: URGENT: Password Reset Required
+Body: Dear employee, your account will be locked in 24 hours. Please click the link below to verify your credentials immediately.
+
+Expected Result:
+CYBriAN should call the tool, pass the subject and body, and the tool should return the "CRITICAL: High probability of phishing detected..." string. CYBriAN will then format that into a final warning for you.
+
+
+Is this email safe to open?
+
+Subject: Quarterly Operations Meeting Notes
+Body: Hi team, attached are the notes from yesterday's all-hands meeting. Let me know if you have any questions before Friday.
+
+Expected Result:
+CYBriAN should call the tool, bypass the if statement, and return "Analysis complete: Proceed with standard caution." CYBriAN will then advise you accordingly.
+
+
+
+metasploit guide  How do I list discovered services?" or "What are the steps for a SYN scan?"  
+
+
+
+
+very long text= Write a very long, detailed story about the history of cybersecurity, including specific technical protocols for every decade since 1970. For every section, include at least 500 words and detailed technical explanations. Do not stop until I tell you to. After each section, I will ask you to continue and expand further

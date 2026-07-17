@@ -1,0 +1,22 @@
+[
+  {
+    "id": "emplayee_handbook",
+    "name": "Employee Handbook",
+    "description": "Rules and benefits for employees.",
+    "always_load": false
+  },
+  {
+    "id": "support_procedures",
+    "name": "Support Procedures",
+    "description": "Guide for resolving support tickets.",
+    "always_load": true
+  }
+  ,
+  
+    {
+        "id": "metasploit_guide",
+        "name": "Metasploit Documentation",
+        "always_load": false
+    }
+
+]
