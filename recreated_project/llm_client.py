@@ -37,27 +37,37 @@ class LLMClient:
                 self._tool_to_dict(tool)
                 for tool in tools
             ]
+        try:
+            response = self.client.chat.completions.create(**kwargs)
+            message = response.choices[0].message
 
-        response = self.client.chat.completions.create(**kwargs)
-        message = response.choices[0].message
-
-        result = {
-            "message": {
-                "role": "assistant",
-                "content": message.content
+            result = {
+                "message": {
+                    "role": "assistant",
+                    "content": message.content
+                }
             }
-        }
 
-        if getattr(message, "tool_calls", None):
-            result["message"]["tool_calls"] = []
-            for tc in message.tool_calls:
-                result["message"]["tool_calls"].append({
-                    "id": tc.id,
-                    "type": "function",
-                    "function": {
-                        "name": tc.function.name,
-                        "arguments": tc.function.arguments
-                    }
-                })
+            if getattr(message, "tool_calls", None):
+                result["message"]["tool_calls"] = []
+                for tc in message.tool_calls:
+                    result["message"]["tool_calls"].append({
+                        "id": tc.id,
+                        "type": "function",
+                        "function": {
+                            "name": tc.function.name,
+                            "arguments": tc.function.arguments
+                        }
+                    })
 
-        return result
+            return result
+        
+        except Exception as e:
+            print(f"❌ API Error in generate_response: {e}")
+        
+            return {
+                "message": {
+                    "role": "assistant",
+                    "content": "Error: Failed to generate response."
+                }
+            }

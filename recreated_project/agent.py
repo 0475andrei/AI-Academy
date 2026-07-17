@@ -14,17 +14,27 @@ class Agent:
         results = []
         for tc in tool_calls:
             tool_name = tc["function"]["name"]
-            
-            arguments_str = tc["function"]["arguments"]
-            arguments = json.loads(arguments_str)
-            
             tool_id = tc["id"]
-
-            tool = self.tools.get(tool_name)
-            if tool:
-                result = tool.callback(**arguments)
-            else:
-                result = f"Tool '{tool_name}' not found"
+            
+            try:
+                # Încercăm să parsăm argumentele
+                arguments_str = tc["function"]["arguments"]
+                arguments = json.loads(arguments_str)
+                
+                # Căutăm tool-ul și îl executăm tot în interiorul try
+                tool = self.tools.get(tool_name)
+                if tool:
+                    result = tool.callback(**arguments)
+                else:
+                    result = f"Tool '{tool_name}' not found"
+            
+            except json.JSONDecodeError:
+                print(f"⚠️ Warning: Invalid JSON arguments for '{tool_name}'")
+                result = "Error: Invalid JSON arguments"
+            except Exception as e:
+                # Prindem orice eroare la execuția callback-ului
+                print(f"❌ Error executing tool '{tool_name}': {e}")
+                result = f"Error: Tool execution failed: {str(e)}"
 
             results.append({
                 "role": "tool",

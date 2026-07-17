@@ -48,8 +48,15 @@ class ConversationContext:
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 return f.read().strip()
+        except FileNotFoundError:
+            print(f"⚠️ Warning: File not found: {filepath}")
+            return "[Error: System document missing.]"
+        except PermissionError:
+            print(f"⚠️ Warning: Permission denied: {filepath}")
+            return "[Error: System document inaccessible.]"
         except Exception as e:
-            return f"[Error reading {filepath}: {str(e)}]"
+            print(f"⚠️ Unexpected error reading {filepath}: {str(e)}")
+            return "[Error: Document system error.]"
 
     def _load_registry(self, folder_path):
         """Helper function to load a registry.json file."""
